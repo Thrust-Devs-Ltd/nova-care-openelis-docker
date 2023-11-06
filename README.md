@@ -1,4 +1,4 @@
-## OpenELIS Global2 on docker
+## OpenELIS Global2 Docker Compose Setup
 Docker Compose setup for OpenELIS-Global2
 
 ### Running OpenELIS Global 3x in Docker
