@@ -83,7 +83,6 @@ services:
             -  key_trust-store-volume:/etc/openelis-global
             - ./volumes/plugins/:/var/lib/openelis-global/plugins
             - ./volumes/tomcat/oe_server_2x.xml:/usr/local/tomcat/conf/server.xml
-            - ./volumes/plugins/:/var/lib/openelis-global/plugins
             - ./volumes/logs/oeLogs:/var/lib/openelis-global/logs
             - ./volumes/logs/tomcatLogs/:/usr/local/tomcat/logs
         secrets:
