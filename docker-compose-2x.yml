@@ -1,4 +1,31 @@
-version: '3.3'
+version: '3.6'
+
+x-logging:
+  &local-logging
+  driver: "local"
+  options:
+    max-size: "20m"
+    max-file: "50"
+
+x-loki-logging:
+  &loki-logging
+  driver: "loki"
+  options:
+    max-size: "20m"
+    max-file: "50"
+    loki-url: "[% loki_url %]"
+    loki-external-labels: "container_name={{.Name}},hostname=[% host_name %]"
+    loki-pipeline-stages: |
+          - multiline:
+              firstline: '^\d{4}-\d{2}-\d{2}[T ]?\d{2}:\d{2}:\d{2}.\d{3}'
+          - labeldrop:
+              - compose_project
+              - compose_service
+              - filename
+              - source
+              - stream
+              - swarm_service
+              - swarm_stack
 services:
     certs:
         container_name: oe-certs 
@@ -8,10 +35,11 @@ services:
             - KEYSTORE_PW="kspass"
             - TRUSTSTORE_PW="tspass"
         networks:
-            - default
+            - openelis-network
         volumes:
             -  key_trust-store-volume:/etc/openelis-global
-    database:
+
+    db.openelis.org:
         container_name: openelisglobal-database 
         image: postgres:14.4
         ports:
@@ -25,7 +53,8 @@ services:
               # files here will run on install
              - ./volumes/database/dbInit:/docker-entrypoint-initdb.d
         networks:
-            - default
+            - openelis-network
+        logging: *local-logging    
         healthcheck:
             test: [ "CMD", "pg_isready", "-q", "-d", "clinlims", "-U", "clinlims" ]
             timeout: 45s
@@ -36,24 +65,27 @@ services:
         container_name: openelisglobal-webapp 
         image: itechuw/openelis-global-2:develop     
         depends_on:
-            - database
+            - db.openelis.org
+            - certs 
         ports:
             - "8080:8080"
             - "8443:8443"
         restart: always
         networks:
-          default:
+          openelis-network:
               ipv4_address: 172.20.1.121
-
+        logging: *local-logging      
         environment:
             - DEFAULT_PW=adminADMIN! 
             - TZ=Africa/Nairobi
               # context.xml doesn't seem to be able to pick up environment variables directly, so we are passing them in as CATALINA_OPTS
-            - CATALINA_OPTS= -Ddatasource.url=jdbc:postgresql://database:5432/clinlims -Ddatasource.username=clinlims
+            - CATALINA_OPTS= -Ddatasource.url=jdbc:postgresql://db.openelis.org:5432/clinlims -Ddatasource.username=clinlims
         volumes:
             -  key_trust-store-volume:/etc/openelis-global
             - ./volumes/plugins/:/var/lib/openelis-global/plugins
             - ./volumes/tomcat/oe_server_2x.xml:/usr/local/tomcat/conf/server.xml
+            - ./volumes/logs/oeLogs:/var/lib/openelis-global/logs
+            - ./volumes/logs/tomcatLogs/:/usr/local/tomcat/logs
         secrets:
             - source: datasource.password
             - source: common.properties
@@ -64,10 +96,19 @@ services:
         ports:
             - "8081:8080"
             - "8444:8443"
+        depends_on:
+            - db.openelis.org
+            - certs     
         networks:
-            - default
+            - openelis-network
+        logging: *local-logging    
         restart: always
         environment:
+          #SPRING_CONFIG_LOCATION: file:///run/secrets/hapi_application.yaml
+          spring.datasource.url : jdbc:postgresql://db.openelis.org:5432/clinlims?currentSchema=clinlims
+          spring.datasource.username : clinlims
+          spring.datasource.password : clinlims
+          spring.datasource.driverClassName: org.postgresql.Driver
           TZ: Africa/Nairobi
 
           JAVA_OPTS: "-Djavax.net.ssl.trustStore=/etc/openelis-global/truststore 
@@ -80,15 +121,34 @@ services:
         volumes:
             -  key_trust-store-volume:/etc/openelis-global
             - ./volumes/tomcat/hapi_server.xml:/usr/local/tomcat/conf/server.xml
+        secrets:
+            - source: hapi_application.yaml   
+
+    autoheal:
+        container_name: autoheal-oe
+        image: willfarrell/autoheal:1.2.0
+        tty: true
+        restart: always
+        networks:
+            - openelis-network
+        environment:
+            AUTOHEAL_CONTAINER_LABEL: all
+            TZ: Africa/Nairobi
+        logging: *local-logging    
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock             
             
 secrets:
   datasource.password:
     file: ./volumes/properties/datasource.password  
   common.properties:
-    file:  ./volumes/properties/common.properties  
+    file:  ./volumes/properties/common.properties 
+  hapi_application.yaml:
+    file: ./volumes/properties/hapi_application.yaml   
 
 networks:
-  default:
+  openelis-network:
+    name: openelis-network
     driver: bridge
     ipam:
       config:
