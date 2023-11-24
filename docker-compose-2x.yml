@@ -92,7 +92,7 @@ services:
             
     fhir.openelis.org:
         container_name: external-fhir-api
-        image: hapiproject/hapi:v5.5.1
+        image: hapiproject/hapi:v6.6.0-tomcat
         ports:
             - "8081:8080"
             - "8444:8443"
@@ -104,13 +104,8 @@ services:
         logging: *local-logging    
         restart: always
         environment:
-          #SPRING_CONFIG_LOCATION: file:///run/secrets/hapi_application.yaml
-          spring.datasource.url : jdbc:postgresql://db.openelis.org:5432/clinlims?currentSchema=clinlims
-          spring.datasource.username : clinlims
-          spring.datasource.password : clinlims
-          spring.datasource.driverClassName: org.postgresql.Driver
+          SPRING_CONFIG_LOCATION: file:///run/secrets/hapi_application.yaml
           TZ: Africa/Nairobi
-
           JAVA_OPTS: "-Djavax.net.ssl.trustStore=/etc/openelis-global/truststore 
                       -Djavax.net.ssl.trustStorePassword=tspass
                       -Djavax.net.ssl.trustStoreType=pkcs12 
@@ -120,7 +115,7 @@ services:
         
         volumes:
             -  key_trust-store-volume:/etc/openelis-global
-            - ./volumes/tomcat/hapi_server.xml:/usr/local/tomcat/conf/server.xml
+            - ./volumes/tomcat/hapi_server.xml:/opt/bitnami/tomcat/conf/server.xml
         secrets:
             - source: hapi_application.yaml   
 
