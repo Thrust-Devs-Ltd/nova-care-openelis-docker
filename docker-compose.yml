@@ -88,6 +88,8 @@ services:
             - ./volumes/tomcat/oe_server_3x.xml:/usr/local/tomcat/conf/server.xml
             - ./volumes/logs/oeLogs:/var/lib/openelis-global/logs
             - ./volumes/logs/tomcatLogs/:/usr/local/tomcat/logs
+            - ./volumes/properties/SystemConfiguration.properties:/var/lib/openelis-global/properties/SystemConfiguration.properties
+            -  lucene_index-vol:/var/lib/lucene_index
             
         secrets:
             - source: datasource.password
