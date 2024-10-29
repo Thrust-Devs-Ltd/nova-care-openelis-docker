@@ -95,7 +95,7 @@ services:
             
     fhir.openelis.org:
         container_name: external-fhir-api
-        image: hapiproject/hapi:v6.6.0-tomcat
+        image: itechuw/openelis-global-2-fhir:develop
         ports:
             - "8081:8080"
             - "8444:8443"
@@ -135,7 +135,7 @@ services:
         tty: true
 
     proxy:
-        image: nginx:1.15-alpine
+        image: itechuw/openelis-global-2-proxy:develop
         container_name: openelisglobal-proxy
         ports:
             - 80:80
