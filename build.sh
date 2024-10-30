@@ -40,6 +40,7 @@ createLinuxInstaller() {
     tar -cf ${installerName}.tar ${installerName}
     gzip ${installerName}.tar
 
+    rm -r ${installerName}
     cd ${CALL_DIR}
 }
 
