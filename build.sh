@@ -21,10 +21,10 @@ echo "creating docker images"
 
 createLinuxInstaller() {
     context="OpenELIS-Global"
-    installerName="${context}_${projectVersion}_dockerImages"
+    installerName="${context}_${projectVersion}_docker_images"
 
     echo "creating installer for context ${context}"
-    mkdir -p ${INSTALLER_CREATION_DIR}/${installerName}
+    mkdir -p ${INSTALLER_CREATION_DIR}/${installerName}/dockerImage
     cp ./install/loadImages.sh ${INSTALLER_CREATION_DIR}/${installerName}/loadImages.sh
     cp OpenELIS-Global_DockerImage.tar.gz ${INSTALLER_CREATION_DIR}/${installerName}/dockerImage/OpenELIS-Global_DockerImage.tar.gz
     cp Postgres_DockerImage.tar.gz ${INSTALLER_CREATION_DIR}/${installerName}/dockerImage/Postgres_DockerImage.tar.gz
