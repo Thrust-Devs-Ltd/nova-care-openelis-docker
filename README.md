@@ -37,15 +37,20 @@ For offline Installtion,where theres no Intenet acess,
 1. Download the prepackaged Docker images from the [Release Artifacts](https://github.com/I-TECH-UW/openelis-docker/releases)
 
 1. Unzip the OpenELIS-Global Docker images zip file 
- ```tar xzf OpenELIS-Global_<verion>_docker_images.tar.gz```
 
-1. Move to directory of the Unziped Docker Images file
-   ```cd OpenELIS-Global_<verion>_docker_images```
-1. Load the images by running
-   ```./loadImages.sh```
+       tar xzf OpenELIS-Global_<verion>_docker_images.tar.gz
+
+1. Move to directory of the Unziped Docker Images file 
+
+       cd OpenELIS-Global_<verion>_docker_images
+1. Load the images by running 
+
+       ./loadImages.sh
 
 1. Then Move to the root of this project 
-    ```cd openelis-docker```
+
+       cd openelis-docker
 1. Start the containers
-   ``` docker-compose up -d``` 
+
+       docker-compose up -d
 
