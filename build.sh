@@ -1,7 +1,9 @@
 #!/bin/bash
 projectVersion=${1:-"latest"}
-INSTALLER_CREATION_DIR="OEDockerImages "
+INSTALLER_CREATION_DIR="OEDockerImages"
+CALL_DIR=$PWD
 
+cd ${CALL_DIR}
 if [ -d "${INSTALLER_CREATION_DIR}" ]
 then
     while true; do
@@ -18,7 +20,7 @@ fi
 echo "creating docker images"
 
 createLinuxInstaller() {
-    context="OpenELIS-Global "
+    context="OpenELIS-Global"
     installerName="${context}_${projectVersion}_dockerImages"
 
     echo "creating installer for context ${context}"
@@ -35,9 +37,11 @@ createLinuxInstaller() {
     cd ${INSTALLER_CREATION_DIR}
     tar -cf ${installerName}.tar ${installerName}
     gzip ${installerName}.tar
+
+    cd ${CALL_DIR}
 }
 
-
+cd ${CALL_DIR}
 echo "saving docker image as OpenELIS-Global_DockerImage.tar.gz"
 docker pull itechuw/openelis-global-2:develop
 docker save itechuw/openelis-global-2:develop | gzip > OpenELIS-Global_DockerImage.tar.gz
@@ -66,7 +70,7 @@ echo "saving Certs docker image"
 docker pull itechuw/certgen:main
 docker save itechuw/certgen:main | gzip > Certs_DockerImage.tar.gz
 
-
+cd ${CALL_DIR}
 createLinuxInstaller 
 
 rm OpenELIS-Global_DockerImage*.tar.gz
