@@ -1,5 +1,7 @@
 #!/bin/bash
 projectVersion=${1:-"latest"}
+dockerVersion=${2:-"develop"} 
+
 INSTALLER_CREATION_DIR="OEDockerImages"
 CALL_DIR=$PWD
 
@@ -43,16 +45,16 @@ createLinuxInstaller() {
 
 cd ${CALL_DIR}
 echo "saving docker image as OpenELIS-Global_DockerImage.tar.gz"
-docker pull itechuw/openelis-global-2:develop
-docker save itechuw/openelis-global-2:develop | gzip > OpenELIS-Global_DockerImage.tar.gz
+docker pull itechuw/openelis-global-2:${dockerVersion}
+docker save itechuw/openelis-global-2:${dockerVersion} | gzip > OpenELIS-Global_DockerImage.tar.gz
 
 echo "saving React frontend docker image"
-docker pull itechuw/openelis-global-2-frontend:develop
-docker save itechuw/openelis-global-2-frontend:develop | gzip > ReactFrontend_DockerImage.tar.gz
+docker pull itechuw/openelis-global-2-frontend:${dockerVersion}
+docker save itechuw/openelis-global-2-frontend:${dockerVersion} | gzip > ReactFrontend_DockerImage.tar.gz
 
 echo "saving JPA Server docker image"
-docker pull itechuw/openelis-global-2-fhir:develop
-docker save itechuw/openelis-global-2-fhir:develop | gzip > JPAServer_DockerImage.tar.gz
+docker pull itechuw/openelis-global-2-fhir:${dockerVersion}
+docker save itechuw/openelis-global-2-fhir:${dockerVersion} | gzip > JPAServer_DockerImage.tar.gz
 
 echo "saving Postgres docker image"
 docker pull postgres:14.4
@@ -63,8 +65,8 @@ docker pull willfarrell/autoheal:1.2.0
 docker save willfarrell/autoheal:1.2.0 | gzip > AutoHeal_DockerImage.tar.gz
 
 echo "saving NGINX docker image"
-docker pull itechuw/openelis-global-2-proxy:develop
-docker save itechuw/openelis-global-2-proxy:develop | gzip > NGINX_DockerImage.tar.gz
+docker pull itechuw/openelis-global-2-proxy:${dockerVersion}
+docker save itechuw/openelis-global-2-proxy:${dockerVersion} | gzip > NGINX_DockerImage.tar.gz
 
 echo "saving Certs docker image"
 docker pull itechuw/certgen:main

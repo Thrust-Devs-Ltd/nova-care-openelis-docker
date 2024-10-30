@@ -14,7 +14,7 @@ jobs:
           repository: ${{github.repository}}
 
       - name: Build installer
-        run: ./build.sh ${{ github.ref_name }}
+        run: ./build.sh ${{github.ref_name}} develop
 
       - name: check installer
         run: ls OEDockerImages  
