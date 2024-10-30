@@ -1,4 +1,4 @@
-name: Build OpenELIS-Global-2 Docker Images
+name: Build OpenELIS-Global-2 Offline Docker Images
 on:
   release:
     types: [published] 

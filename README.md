@@ -7,6 +7,8 @@ You can find more information on how to set up OpenELIS at our [docs page](http:
 
 [![Publish Docker Image Status](https://github.com/I-TECH-UW/OpenELIS-Global-2/actions/workflows/publish-and-test.yml/badge.svg)](https://github.com/I-TECH-UW/OpenELIS-Global-2/actions/workflows/publish-and-test.yml)
 
+[![Build Off Line Docker Images](https://github.com/I-TECH-UW/openelis-docker/actions/workflows/build-installer.yml/badge.svg)](https://github.com/I-TECH-UW/openelis-docker/actions/workflows/build-installer.yml)
+
 ## ONLINE INSTALLATION
 ### Running OpenELIS Global 3x with docker-compose
     docker-compose up -d
@@ -32,7 +34,7 @@ You can find more information on how to set up OpenELIS at our [docs page](http:
 
 For offline Installtion,where theres no Intenet acess,
 
-1. Download the prepackaged Docker images from the (Release Artifacts)[https://github.com/I-TECH-UW/openelis-docker/releases]
+1. Download the prepackaged Docker images from the [Release Artifacts](https://github.com/I-TECH-UW/openelis-docker/releases)
 
 1. Unzip the OpenELIS-Global Docker images zip file 
  ```tar xzf OpenELIS-Global_<verion>_docker_images.tar.gz```
