@@ -34,13 +34,13 @@ You can find more information on how to set up OpenELIS at our [docs page](http:
 
 For offline Installtion,where theres no Intenet acess,
 
-1. Download the prepackaged Docker images from the [Release Artifacts](https://github.com/I-TECH-UW/openelis-docker/releases)
+1. Download the  OpenELIS-Global Docker Installer zip file  from the [Release Artifacts](https://github.com/I-TECH-UW/openelis-docker/releases)
 
 1. Unzip the OpenELIS-Global Docker Installer zip file 
 
        tar xzf OpenELIS-Global_<verion>_docker_installer.tar.gz
 
-1. Move to directory of the Unziped Docker Images file 
+1. Move to directory of the Unziped OpenELIS-Global Docker Installer file 
 
        cd OpenELIS-Global_<verion>_docker_installer
 1. Load the images and start the containers  by running 
