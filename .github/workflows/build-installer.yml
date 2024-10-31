@@ -17,16 +17,16 @@ jobs:
         run: ./build.sh ${{github.ref_name}} develop
 
       - name: check installer
-        run: ls OEDockerImages  
+        run: ls OEDockerInstaller  
 
 
       - name: Find installer file
         id: find_file
         run: |
-          # Find the file in OEDockerImages  with .tar.gz extension
-          FILE_PATH=$(find OEDockerImages  -name "*.tar.gz" -print -quit)
+          # Find the file in OEDockerInstaller  with .tar.gz extension
+          FILE_PATH=$(find OEDockerInstaller  -name "*.tar.gz" -print -quit)
           if [ -z "$FILE_PATH" ]; then
-            echo "No .tar.gz file found in OEDockerImages  directory."
+            echo "No .tar.gz file found in OEDockerInstaller  directory."
             exit 1
           fi
           echo "File path: $FILE_PATH"
