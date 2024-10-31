@@ -34,23 +34,24 @@ You can find more information on how to set up OpenELIS at our [docs page](http:
 
 For offline Installtion,where theres no Intenet acess,
 
-1. Download the prepackaged Docker images from the [Release Artifacts](https://github.com/I-TECH-UW/openelis-docker/releases)
+1. Download the  OpenELIS-Global Docker Installer zip file  from the [Release Artifacts](https://github.com/I-TECH-UW/openelis-docker/releases)
 
-1. Unzip the OpenELIS-Global Docker images zip file 
+1. Unzip the OpenELIS-Global Docker Installer zip file 
 
-       tar xzf OpenELIS-Global_<verion>_docker_images.tar.gz
+       tar xzf OpenELIS-Global_<verion>_docker_installer.tar.gz
 
-1. Move to directory of the Unziped Docker Images file 
+1. Move to directory of the Unziped OpenELIS-Global Docker Installer file 
 
-       cd OpenELIS-Global_<verion>_docker_images
-1. Load the images by running 
+       cd OpenELIS-Global_<verion>_docker_installer
 
-       ./loadImages.sh
+1. For installing OpenELIS-Global2 the first time ,Load the images and start the containers  by running 
 
-1. Then Move to the root of this project 
+       ./run.sh
 
-       cd openelis-docker
-1. Start the containers
+1. For Upgrading  OpenELIS-Global2 with an existing docker installer ,only Load the images in the new docker installer and re-satrt Global Global containers in your existing old Docker  installer
 
-       docker-compose up -d
+       ./upgrade.sh
+
+       
+    
 

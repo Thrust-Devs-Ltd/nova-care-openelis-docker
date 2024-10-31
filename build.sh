@@ -2,7 +2,7 @@
 projectVersion=${1:-"latest"}
 dockerVersion=${2:-"develop"} 
 
-INSTALLER_CREATION_DIR="OEDockerImages"
+INSTALLER_CREATION_DIR="OEDockerInstaller"
 CALL_DIR=$PWD
 
 cd ${CALL_DIR}
@@ -23,11 +23,15 @@ echo "creating docker images"
 
 createLinuxInstaller() {
     context="OpenELIS-Global"
-    installerName="${context}_${projectVersion}_docker_images"
+    installerName="${context}_${projectVersion}_docker_installer"
 
     echo "creating installer for context ${context}"
     mkdir -p ${INSTALLER_CREATION_DIR}/${installerName}/dockerImage
-    cp ./install/loadImages.sh ${INSTALLER_CREATION_DIR}/${installerName}/loadImages.sh
+    mkdir -p ${INSTALLER_CREATION_DIR}/${installerName}/volumes
+    cp ./install/run.sh ${INSTALLER_CREATION_DIR}/${installerName}/run.sh
+    cp ./install/upgrade.sh ${INSTALLER_CREATION_DIR}/${installerName}/upgrade.sh
+    cp docker-compose.yml ${INSTALLER_CREATION_DIR}/${installerName}/docker-compose.yml
+    cp -r volumes/* ${INSTALLER_CREATION_DIR}/${installerName}/volumes
     cp OpenELIS-Global_DockerImage.tar.gz ${INSTALLER_CREATION_DIR}/${installerName}/dockerImage/OpenELIS-Global_DockerImage.tar.gz
     cp Postgres_DockerImage.tar.gz ${INSTALLER_CREATION_DIR}/${installerName}/dockerImage/Postgres_DockerImage.tar.gz
     cp JPAServer_DockerImage.tar.gz ${INSTALLER_CREATION_DIR}/${installerName}/dockerImage/JPAServer_DockerImage.tar.gz

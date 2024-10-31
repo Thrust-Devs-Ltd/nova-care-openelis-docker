@@ -9,3 +9,4 @@ gunzip -c ReactFrontend_DockerImage.tar.gz | docker load
 gunzip -c Certs_DockerImage.tar.gz | docker load
 
 
+
