@@ -51,7 +51,7 @@ services:
             - ./volumes/database/database.env
         volumes:
               # preserves the database between containers
-            - db-data:/var/lib/postgresql/data                
+            - ./volumes/database/data:/var/lib/postgresql/data                
               # files here will run on install
             - ./volumes/database/dbInit:/docker-entrypoint-initdb.d
         logging: *local-logging    

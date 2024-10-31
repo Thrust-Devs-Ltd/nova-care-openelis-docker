@@ -43,8 +43,15 @@ For offline Installtion,where theres no Intenet acess,
 1. Move to directory of the Unziped OpenELIS-Global Docker Installer file 
 
        cd OpenELIS-Global_<verion>_docker_installer
-1. Load the images and start the containers  by running 
+
+1. For installing OpenELIS-Global2 the first time ,Load the images and start the containers  by running 
 
        ./run.sh
 
+1. For Upgrading  OpenELIS-Global2 with an existing docker installer ,only Load the images in the new docker installer and re-satrt Global Global containers in your existing old Docker  installer
+
+      ./upgrade.sh
+
+       
+    
 
