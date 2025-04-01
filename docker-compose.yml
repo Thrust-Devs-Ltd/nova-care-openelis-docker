@@ -81,7 +81,7 @@ services:
         logging: *local-logging      
         environment:
             - DEFAULT_PW=adminADMIN! 
-            - TZ=Africa/Nairobi
+            - TZ=America/New_York
               # context.xml doesn't seem to be able to pick up environment variables directly, so we are passing them in as CATALINA_OPTS
             - CATALINA_OPTS= -Ddatasource.url=jdbc:postgresql://db.openelis.org:5432/clinlims -Ddatasource.username=clinlims
         volumes:
@@ -112,7 +112,7 @@ services:
         restart: always
         environment:
           SPRING_CONFIG_LOCATION: file:///run/secrets/hapi_application.yaml
-          TZ: Africa/Nairobi
+          TZ: America/New_York
           
           JAVA_OPTS: "-Djavax.net.ssl.trustStore=/etc/openelis-global/truststore 
                       -Djavax.net.ssl.trustStorePassword=tspass
@@ -199,7 +199,7 @@ services:
             - openelis-network
         environment:
             AUTOHEAL_CONTAINER_LABEL: all
-            TZ: Africa/Nairobi
+            TZ: America/New_York
         logging: *local-logging    
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock            
