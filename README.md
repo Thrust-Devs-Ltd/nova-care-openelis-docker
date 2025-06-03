@@ -10,6 +10,17 @@ You can find more information on how to set up OpenELIS at our [docs page](http:
 [![Build Off Line Docker Images](https://github.com/I-TECH-UW/openelis-docker/actions/workflows/build-installer.yml/badge.svg)](https://github.com/I-TECH-UW/openelis-docker/actions/workflows/build-installer.yml)
 
 ## ONLINE INSTALLATION
+
+## Updating the DB Passord (Optional)
+1. Update the password for user `clinlims` in the  [1-pgsqlPermissions.sql](./volumes/database/dbInit/1-pgsqlPermissions.sql) file , which is used by both HAPI FHIR and the OpenELIS-Global webb app to acces the DB
+
+1. Update the data source password used by the webb app in the  [datasource.password](./volumes/properties/datasource.password) file accordingly
+
+1. Update the data source password used by the Hapi FHIR server in the  [hapi_application.yaml](./volumes/properties/hapi_application.yaml) file accordingly
+
+1. Lastly update the password for user `admin` in the  [1-pgsqlPermissions.sql](./volumes/database/dbInit/1-pgsqlPermissions.sql) file
+
+
 ### Running OpenELIS Global 3x with docker-compose
     docker-compose up -d
 
