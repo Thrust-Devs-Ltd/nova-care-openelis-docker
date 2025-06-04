@@ -31,16 +31,6 @@ You can find more information on how to set up OpenELIS at our [docs page](http:
 | Legacy UI   |  https://localhost/api/OpenELIS-Global/  | admin: adminADMIN! |
 | New React UI  |    https://localhost/  |  admin: adminADMIN!
 
-### Running OpenELIS Global 2x with docker-compose
-    docker-compose -f docker-compose-2x.yml up -d 
-
-#### The Instance can be accessed at 
-
-| Instance  |     URL       | credentials (user: password)|
-|---------- |:-------------:|------:                       |
-| OpenElis   |  https://localhost:8443/OpenELIS-Global/  | admin: adminADMIN! |
-
-
 ## OFFLINE INSTALLTION
 
 For offline Installtion,where theres no Intenet acess,
