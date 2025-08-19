@@ -36,7 +36,7 @@ services:
             - KEYSTORE_PW="kspass"
             - TRUSTSTORE_PW="tspass"
         networks:
-            - openelis-network
+            - distro-network
         volumes:
             -  key_trust-store-volume:/etc/openelis-global
             -  keys-vol:/etc/ssl/private/
@@ -57,7 +57,7 @@ services:
             - ./volumes/database/dbInit:/docker-entrypoint-initdb.d
         logging: *local-logging    
         networks:
-            - openelis-network
+            - distro-network
         healthcheck:
             test: [ "CMD", "pg_isready", "-q", "-d", "clinlims", "-U", "clinlims" ]
             timeout: 45s
@@ -72,11 +72,11 @@ services:
             - db.openelis.org
             - certs
         ports:
-            - "8080:8080"
+            - "8480:8080"
             - "8443:8443"
         restart: always
         networks:
-          openelis-network:
+          distro-network:
               ipv4_address: 172.20.1.121
         logging: *local-logging      
         environment:
@@ -104,28 +104,28 @@ services:
         platform: linux/amd64
         ports:
             - "8081:8080"
-            - "8444:8443"
+#            - "8444:8443"
         depends_on:
             - db.openelis.org
             - certs    
         networks:
-            - openelis-network
+            - distro-network
         restart: always
         environment:
           SPRING_CONFIG_LOCATION: file:///run/secrets/hapi_application.yaml
           TZ: America/New_York
           
-          JAVA_OPTS: "-Djavax.net.ssl.trustStore=/etc/openelis-global/truststore 
-                      -Djavax.net.ssl.trustStorePassword=tspass
-                      -Djavax.net.ssl.trustStoreType=pkcs12 
-                      -Djavax.net.ssl.keyStore=/etc/openelis-global/keystore 
-                      -Djavax.net.ssl.keyStorePassword=kspass 
-                      -Djavax.net.ssl.keyStoreType=pkcs12"   
+#          JAVA_OPTS: "-Djavax.net.ssl.trustStore=/etc/openelis-global/truststore
+#                      -Djavax.net.ssl.trustStorePassword=tspass
+#                      -Djavax.net.ssl.trustStoreType=pkcs12
+#                      -Djavax.net.ssl.keyStore=/etc/openelis-global/keystore
+#                      -Djavax.net.ssl.keyStorePassword=kspass
+#                      -Djavax.net.ssl.keyStoreType=pkcs12"
 
         logging: *local-logging                       
-        volumes:
-            -  key_trust-store-volume:/etc/openelis-global
-            - ./volumes/tomcat/hapi_server.xml:/opt/bitnami/tomcat/conf/server.xml
+#        volumes:
+#            -  key_trust-store-volume:/etc/openelis-global
+#            - ./volumes/tomcat/hapi_server.xml:/opt/bitnami/tomcat/conf/server.xml
         secrets:
             - source: hapi_application.yaml    
 
@@ -135,7 +135,7 @@ services:
         container_name: openelisglobal-front-end
         platform: linux/amd64
         networks:
-            - openelis-network
+            - distro-network
         environment:
             - CHOKIDAR_USEPOLLING=true
         logging: *local-logging    
@@ -146,7 +146,7 @@ services:
         container_name: openelisglobal-proxy
         platform: linux/amd64
         ports:
-            - 80:80
+            - 82:80
             - 443:443
         volumes:
             - certs-vol:/etc/nginx/certs/
@@ -157,7 +157,7 @@ services:
             # - /etc/openelis-global/nginx.key.pem:/etc/nginx/certs/cert.key
         restart: unless-stopped
         networks:
-            - openelis-network
+            - distro-network
         logging: *local-logging    
         depends_on:
             - certs    
@@ -182,7 +182,7 @@ services:
     #             -Djavax.net.ssl.trustStoreType=pkcs12
     #     logging: *local-logging
     #     networks:
-    #         - openelis-network
+    #         - distro-network
     #     healthcheck:
     #         test: ["CMD", "/app/healthcheck.sh"]
     #         timeout: 10s
@@ -197,7 +197,7 @@ services:
         tty: true
         restart: always
         networks:
-            - openelis-network
+            - distro-network
         environment:
             AUTOHEAL_CONTAINER_LABEL: all
             TZ: America/New_York
@@ -214,8 +214,8 @@ secrets:
     file: ./volumes/properties/hapi_application.yaml  
 
 networks:
-  openelis-network:
-    name: openelis-network
+  distro-network:
+    name: distro-network
     driver: bridge
     ipam:
       config:
